@@ -1,43 +1,42 @@
 import React from "react";
+import "../user-pages.css";
 
 export default function ServiceDetail({ service, onBack, onAddToPlan }) {
   if (!service) return null;
 
   return (
-    <div style={{ padding: 16 }}>
-      <button onClick={onBack} style={{ marginBottom: 12 }}>← Back to Services</button>
-      <div style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: 16, background: "#fff" }}>
-        <h2 style={{ marginTop: 0 }}>{service.name}</h2>
-        <div style={{ color: "#64748b", marginBottom: 12 }}>{service.description}</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+    <div className="user-section">
+      <button onClick={onBack} className="user-back">← Back to Services</button>
+      <div className="user-card">
+        <h2 className="user-title" style={{ marginTop: 0 }}>{service.name}</h2>
+        <p className="user-subtitle" style={{ marginBottom: "1.5rem" }}>{service.description}</p>
+        <div className="user-grid user-grid-3" style={{ marginBottom: "1.5rem" }}>
           <div>
-            <div style={{ fontSize: 13, color: "#64748b" }}>Price</div>
-            <div style={{ fontWeight: 600 }}>${service.price}</div>
+            <div className="user-label">Price</div>
+            <div className="user-card-price" style={{ fontSize: "1.5rem" }}>${service.price}</div>
           </div>
           <div>
-            <div style={{ fontSize: 13, color: "#64748b" }}>Availability</div>
-            <div style={{ fontWeight: 600 }}>{service.available ? "Available" : "Unavailable"}</div>
+            <div className="user-label">Availability</div>
+            <div>
+              <span className={`user-badge ${service.available ? "user-badge-success" : "user-badge-danger"}`}>
+                {service.available ? "Available" : "Unavailable"}
+              </span>
+            </div>
           </div>
           {service.capacity ? (
             <div>
-              <div style={{ fontSize: 13, color: "#64748b" }}>Capacity</div>
-              <div style={{ fontWeight: 600 }}>{service.capacity}</div>
+              <div className="user-label">Capacity</div>
+              <div style={{ fontWeight: 600, fontSize: "1.1rem" }}>{service.capacity} guests</div>
             </div>
           ) : null}
         </div>
 
-        <div style={{ marginTop: 16, display: "flex", gap: 8 }}>
+        <div>
           <button
             onClick={() => onAddToPlan(service)}
             disabled={!service.available}
-            style={{
-              padding: "8px 12px",
-              borderRadius: 6,
-              border: "1px solid #22c55e",
-              background: service.available ? "#22c55e" : "#94a3b8",
-              color: "#fff",
-              cursor: service.available ? "pointer" : "not-allowed"
-            }}
+            className={`user-btn ${service.available ? "user-btn-success" : ""}`}
+            style={{ opacity: service.available ? 1 : 0.5, cursor: service.available ? "pointer" : "not-allowed" }}
           >
             Add to Plan
           </button>
