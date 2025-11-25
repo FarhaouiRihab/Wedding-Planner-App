@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import "./App.css";
+import "./User/user-pages.css";
 
 // Pages
 import Login from "./Authentication/Login";
 import SignUp from "./Authentication/SignUp";
-import AdminDashboard from "./AdminPortal/AdminDashboard";
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function LoginPage() {
   function handleLogin(form) {
     console.log("Logged in:", form);
     setUser({ email: form.email });
-    navigate("/admin");
+    setView("admin");
   }
 
   return <Login onLogin={handleLogin} onGoSignUp={() => navigate("/signup")} />;
@@ -41,10 +41,28 @@ function SignUpPage() {
   function handleSignUp(form) {
     console.log("Signed up:", form);
     setUser({ email: form.email });
-    navigate("/admin");
+    setView("admin");
   }
 
-  return <SignUp onSignUp={handleSignUp} onGoLogin={() => navigate("/login")} />;
+  // === Render depending on the view ===
+  if (view === "login") {
+    return (
+      <Login
+        onLogin={handleLogin}
+        onGoSignUp={() => setView("signup")}
+      />
+    );
+  }
+
+  if (view === "signup") {
+    return (
+      <SignUp
+        onSignUp={handleSignUp}
+        onGoLogin={() => setView("login")}
+      />
+    );
+  }
+
 }
 
 export default App;
