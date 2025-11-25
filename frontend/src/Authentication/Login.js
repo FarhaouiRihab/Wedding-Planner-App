@@ -30,7 +30,6 @@ export default function Login({ onLogin, onGoSignUp }) {
     <div className="auth-page">
       <div className="auth-container" role="main" aria-label="Login form">
         <h2 className="auth-title">Welcome back</h2>
-        <p className="auth-subtitle">Sign in to your admin account</p>
 
         {err ? <div className="auth-error" role="alert">{err}</div> : null}
 

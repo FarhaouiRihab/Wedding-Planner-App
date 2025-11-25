@@ -1,191 +1,236 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import "./admin.css";
+
+const SERVICE_TYPES = ["DJ", "Chef", "Cake Baker", "Florist", "Waiter", "Venue"];
 
 export default function AddService() {
-  const [form, setForm] = useState({
-    type: "DJ",
-    name: "",
-    address: "",
-    availableDate: "",
-    bio: "",
-    phone: "",
-    email: "",
-    price: "",
-    capacity: "",
-    photos: []
-  });
+  const [type, setType] = useState("DJ");
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [bio, setBio] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [price, setPrice] = useState("");
+  const [capacity, setCapacity] = useState("");
+  const [dates, setDates] = useState([]);
+  const [newDate, setNewDate] = useState("");
+  const [files, setFiles] = useState([]);
+  const [previews, setPreviews] = useState([]);
+  const [saving, setSaving] = useState(false);
+  const [alert, setAlert] = useState(null);
+  const fileInputRef = useRef(null);
 
-  const [preview, setPreview] = useState([]);
+  const isVenue = type === "Venue";
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  }
+  const addDate = () => {
+    if (!newDate) return;
+    if (dates.includes(newDate)) {
+      setAlert({ type: "warn", msg: "This date is already added." });
+      return;
+    }
+    setDates((prev) => [...prev, newDate]);
+    setNewDate("");
+  };
 
-  function handlePhotos(e) {
-    const files = Array.from(e.target.files);
-    setForm({ ...form, photos: files });
-    setPreview(files.map(file => URL.createObjectURL(file)));
-  }
+  const removeDate = (d) => {
+    setDates((prev) => prev.filter((x) => x !== d));
+  };
 
-  function handleSubmit(e) {
+  const handleFileChange = (e) => {
+    const newFiles = Array.from(e.target.files);
+    const all = [...files, ...newFiles];
+    setFiles(all);
+    previews.forEach((url) => URL.revokeObjectURL(url));
+    setPreviews(all.map((f) => URL.createObjectURL(f)));
+  };
+
+  const removePhoto = (idx) => {
+    const updated = files.filter((_, i) => i !== idx);
+    previews.forEach((url) => URL.revokeObjectURL(url));
+    setFiles(updated);
+    setPreviews(updated.map((f) => URL.createObjectURL(f)));
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Service to submit:", form);
-    alert("✅ Service saved (demo only)");
-  }
-
-  const showCapacity = form.type === "Venue";
+    setSaving(true);
+    setTimeout(() => {
+      setSaving(false);
+      setAlert({ type: "ok", msg: "Service added successfully!" });
+    }, 1000);
+  };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-2xl shadow">
-      <h2 className="text-2xl font-semibold mb-4">Add Wedding Service</h2>
+    <div className="panel">
+      <h2>Add Service</h2>
+      {alert && (
+        <div className={`alert ${alert.type}`} style={{ marginBottom: 15 }}>
+          {alert.msg}
+        </div>
+      )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Service type */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Service Type
-          </label>
-          <select
-            name="type"
-            value={form.type}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-3 py-2"
-          >
-            <option>DJ</option>
-            <option>Chef</option>
-            <option>Cake Baker</option>
-            <option>Florist</option>
-            <option>Waiter</option>
-            <option>Venue</option>
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+        {/* Service Type */}
+        <div className="field">
+          <label className="label">Service Type</label>
+          <select value={type} onChange={(e) => setType(e.target.value)}>
+            {SERVICE_TYPES.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
           </select>
         </div>
 
-        {/* Common fields */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium">Name</label>
-            <input
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              className="w-full border rounded-lg px-3 py-2"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Address</label>
-            <input
-              name="address"
-              value={form.address}
-              onChange={handleChange}
-              className="w-full border rounded-lg px-3 py-2"
-              required
-            />
-          </div>
+        {/* Name */}
+        <div className="field">
+          <label className="label">Service Name</label>
+          <input
+            type="text"
+            placeholder="Enter the name of the service"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium">Available Date</label>
-            <input
-              type="date"
-              name="availableDate"
-              value={form.availableDate}
-              onChange={handleChange}
-              className="w-full border rounded-lg px-3 py-2"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Price (€)</label>
-            <input
-              type="number"
-              name="price"
-              value={form.price}
-              onChange={handleChange}
-              className="w-full border rounded-lg px-3 py-2"
-              required
-            />
-          </div>
+        {/* Address */}
+        <div className="field">
+          <label className="label">Address</label>
+          <input
+            type="text"
+            placeholder="Enter the address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
         </div>
 
-        {showCapacity && (
-          <div>
-            <label className="block text-sm font-medium">Capacity</label>
+        {/* Price */}
+        <div className="field">
+          <label className="label">Price (€)</label>
+          <input
+            type="number"
+            placeholder="Enter service price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
+
+        {/* Capacity (for Venues only) */}
+        {isVenue && (
+          <div className="field">
+            <label className="label">Capacity</label>
             <input
               type="number"
-              name="capacity"
-              value={form.capacity}
-              onChange={handleChange}
-              className="w-full border rounded-lg px-3 py-2"
+              placeholder="Enter venue capacity"
+              value={capacity}
+              onChange={(e) => setCapacity(e.target.value)}
             />
           </div>
         )}
 
-        <div>
-          <label className="block text-sm font-medium">Bio / Description</label>
+        {/* Description */}
+        <div className="field">
+          <label className="label">Description</label>
           <textarea
-            name="bio"
-            value={form.bio}
-            onChange={handleChange}
-            rows="3"
-            className="w-full border rounded-lg px-3 py-2"
+            placeholder="Describe the service"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium">Phone Number</label>
-            <input
-              type="tel"
-              name="phone"
-              value={form.phone}
-              onChange={handleChange}
-              className="w-full border rounded-lg px-3 py-2"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              className="w-full border rounded-lg px-3 py-2"
-            />
-          </div>
-        </div>
-
-        {/* Photos */}
-        <div>
-          <label className="block text-sm font-medium">Upload Photos</label>
+        {/* Phone */}
+        <div className="field">
+          <label className="label">Phone Number</label>
           <input
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={handlePhotos}
-            className="block w-full text-sm mt-1"
+            type="tel"
+            placeholder="+49 123 456 789"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
           />
-          {preview.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-2">
-              {preview.map((src, idx) => (
-                <img
-                  key={idx}
-                  src={src}
-                  alt="preview"
-                  className="h-20 w-20 object-cover rounded-lg border"
-                />
+        </div>
+
+        {/* Email */}
+        <div className="field">
+          <label className="label">Email</label>
+          <input
+            type="email"
+            placeholder="example@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+
+        {/* Availability Dates */}
+        <div className="field">
+          <label className="label">Available Dates</label>
+          <div style={{ display: "flex", gap: "8px" }}>
+            <input
+              type="date"
+              value={newDate}
+              onChange={(e) => setNewDate(e.target.value)}
+            />
+            <button type="button" className="btn btn-accent" onClick={addDate}>
+              Add Date
+            </button>
+          </div>
+
+          {dates.length > 0 ? (
+            <div className="date-grid" style={{ marginTop: 12 }}>
+              {dates.map((d) => (
+                <div key={d} className="date-pill">
+                  {d}
+                  <button
+                    type="button"
+                    className="icon-btn"
+                    style={{ marginLeft: 8 }}
+                    onClick={() => removeDate(d)}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="empty">No dates added yet.</div>
+          )}
+        </div>
+
+        {/* Photo Upload */}
+        <div className="field">
+          <label className="label">Upload Photos</label>
+          <label className="uploader" htmlFor="photos">
+            <input
+              type="file"
+              id="photos"
+              ref={fileInputRef}
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
+            />
+            <div>Click or drag files here (max 10)</div>
+          </label>
+
+          {previews.length > 0 && (
+            <div className="preview-grid" style={{ marginTop: 10 }}>
+              {previews.map((src, i) => (
+                <div className="thumb" key={i}>
+                  <img src={src} alt={`Preview ${i + 1}`} />
+                  <button
+                    type="button"
+                    className="remove"
+                    onClick={() => removePhoto(i)}
+                  >
+                    Remove
+                  </button>
+                </div>
               ))}
             </div>
           )}
         </div>
 
         {/* Submit */}
-        <button
-          type="submit"
-          className="w-full bg-gray-900 text-white py-2 rounded-lg hover:bg-black transition"
-        >
-          Save Service
+        <button className="btn btn-primary" disabled={saving}>
+          {saving ? "Saving..." : "Save Service"}
         </button>
       </form>
     </div>
