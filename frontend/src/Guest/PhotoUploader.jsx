@@ -1,6 +1,6 @@
 // src/components/PhotoUploader.jsx
 import { useState } from "react";
-import { uploadGuestPhotos } from "./api/client";
+import { uploadGuestPhotos } from "../api/client";
 
 export default function PhotoUploader({ invitationId }) {
   const [coupleName, setCoupleName] = useState("");

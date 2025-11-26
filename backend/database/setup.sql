@@ -1,6 +1,16 @@
 CREATE DATABASE IF NOT EXISTS wedding_planner;
 USE wedding_planner;
 
+-- ACCOUNTS (for authentication)
+CREATE TABLE IF NOT EXISTS accounts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name     VARCHAR(100) NOT NULL,
+    email         VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role          VARCHAR(20)  NOT NULL DEFAULT 'USER',  -- ADMIN, USER, GUEST
+    created_at    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 -- WEDDINGS
 CREATE TABLE IF NOT EXISTS weddings (
     id INT AUTO_INCREMENT PRIMARY KEY,

@@ -15,10 +15,12 @@ import Login from "./Authentication/Login";
 import SignUp from "./Authentication/SignUp";
 import AdminDashboard from "./AdminPortal/AdminDashboard";
 
-// TODO: change paths if your files are elsewhere
 import Home from "./Guest/Home";
 import AddPhotos from "./Guest/AddPhotos";
 import ParkingCapacity from "./Guest/ParkingCapacity";
+
+// ⭐ NEW: auth API helpers
+import { loginAccount, registerAccount } from "./api/client";
 
 function App() {
   return (
@@ -50,10 +52,28 @@ function App() {
 function LoginPage() {
   const navigate = useNavigate();
 
-  function handleLogin(form) {
-    console.log("Logged in:", form);
-    // here you would normally check credentials, then:
-    navigate("/admin");
+  // 🔐 real login using backend
+  async function handleLogin(form) {
+    try {
+      const { user, token } = await loginAccount({
+        email: form.email,
+        password: form.password,
+      });
+
+      // store auth info
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("currentUser", JSON.stringify(user));
+
+      // redirect based on role (single ADMIN, others = normal users)
+      if (user.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/home");
+      }
+    } catch (err) {
+      console.error("Login failed:", err);
+      alert("Login failed. Please check your email and password.");
+    }
   }
 
   return (
@@ -67,10 +87,25 @@ function LoginPage() {
 function SignUpPage() {
   const navigate = useNavigate();
 
-  function handleSignUp(form) {
-    console.log("Signed up:", form);
-    // after signup go to login (or /admin if you prefer)
-    navigate("/login");
+  // 🔐 real register using backend
+  async function handleSignUp(form) {
+    try {
+      const { user, token } = await registerAccount({
+        full_name: form.fullName,      // map camelCase → snake_case
+        email: form.email,
+        password: form.password,
+        // role is forced to USER in backend; no admin created here
+      });
+
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("currentUser", JSON.stringify(user));
+
+      // after signup you can go straight to /home or back to login
+      navigate("/home");
+    } catch (err) {
+      console.error("Sign up failed:", err);
+      alert("Sign up failed. Try a different email.");
+    }
   }
 
   return (

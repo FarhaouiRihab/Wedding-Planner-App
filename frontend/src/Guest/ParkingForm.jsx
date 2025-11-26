@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { submitGuestParking, getParkingAvailability } from "./api/client";
+import { submitGuestParking, getParkingAvailability } from "../api/client";
 import Modal from "react-modal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
