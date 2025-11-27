@@ -1,11 +1,11 @@
 // src/User/UserDashboard.js
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./user-pages.css";
+//import "./user-pages.css";
 import BookAppointment from "./BookAppointment/BookAppointment";
 import ManageServices from "./ManageServices/ManageWeddingServices";
 import SendInvitations from "./SendInvitations/SendInvitations";
-
+import "../global.css";
 
 export default function UserDashboard() {
   const [tab, setTab] = useState("book");

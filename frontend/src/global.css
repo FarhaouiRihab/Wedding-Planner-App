@@ -1,0 +1,294 @@
+/* -------------------------------------------------------
+   GLOBAL BASE (wedding theme)
+------------------------------------------------------- */
+
+:root {
+    --rose: #b33c86;
+    --lavender: #6a4bac;
+    --bg-gradient-from: #fff5f8;
+    --bg-gradient-to: #f8f4ff;
+    --text-main: #444;
+    --text-muted: #666;
+    --border-soft: #f0d9e9;
+  }
+  
+  /* Page base */
+  body {
+    margin: 0;
+    font-family: "Poppins", "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(135deg, var(--bg-gradient-from), var(--bg-gradient-to));
+    color: var(--text-main);
+  }
+  
+  /* Links */
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* Generic container */
+  .container {
+    width: 90%;
+    margin: 0 auto;
+  }
+  
+  /* -------------------------------------------------------
+     TOP NAVBAR (used everywhere)
+  ------------------------------------------------------- */
+  
+  .nav {
+    background: #ffffffcc;
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border-soft);
+    padding: 14px 0;
+  }
+  
+  .nav .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .brand {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--rose);
+  }
+  
+  /* Optional: right-aligned nav actions */
+  .nav-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  /* -------------------------------------------------------
+     GENERIC CARD LAYOUT
+  ------------------------------------------------------- */
+  
+  .page-wrapper-center {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  
+  .card-elegant {
+    background: #ffffffdd;
+    backdrop-filter: blur(10px);
+    padding: 40px 35px;
+    border-radius: 16px;
+    max-width: 750px;
+    width: 100%;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+    animation: fadeIn 0.6s ease;
+    box-sizing: border-box;
+  }
+  
+  /* Fade-in animation used by cards */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* -------------------------------------------------------
+     TITLES & TEXT
+  ------------------------------------------------------- */
+  
+  .page-title {
+    margin-bottom: 10px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #3a3a3a;
+  }
+  
+  .page-subtitle {
+    margin-top: 0;
+    font-size: 1.35rem;
+    color: var(--lavender);
+    font-weight: 600;
+  }
+  
+  .page-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+  }
+  
+  /* -------------------------------------------------------
+     BUTTONS (shared)
+  ------------------------------------------------------- */
+  
+  .btn {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+  
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* Large buttons (home, main actions) */
+  .btn-large {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1.1rem;
+  }
+  
+  /* Neutral soft buttons */
+  .btn-violet {
+    background-color: #ece9f0;
+    border-color: #dcd8e2;
+    color: #4d4d4d;
+  }
+  
+  .btn-violet:hover {
+    background-color: #e4e1ea;
+  }
+  
+  .btn-gold {
+    background-color: #f3f2ed;
+    border-color: #e4e2db;
+    color: #4d4d4d;
+  }
+  
+  .btn-gold:hover {
+    background-color: #eae9e3;
+  }
+  
+  /* Primary gradient button (upload, confirm) */
+  .btn-primary-gradient {
+    background: linear-gradient(135deg, var(--rose), var(--lavender));
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(179, 60, 134, 0.3);
+  }
+  
+  .btn-primary-gradient:hover {
+    background: linear-gradient(135deg, #d94fa6, #8562d1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(179, 60, 134, 0.4);
+  }
+  
+  /* -------------------------------------------------------
+     HOME (Guest / User welcome)
+  ------------------------------------------------------- */
+  
+  .home-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  
+  .home-card {
+    /* reuse generic card */
+    composes: card-elegant;
+    text-align: center;
+  }
+  
+  /* If composes is not supported, you can just add: */
+  /* .home-card { @extend .card-elegant; } in SCSS, or
+     manually copy card-elegant styles into .home-card. */
+  
+  /* Buttons block on home */
+  .home-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* -------------------------------------------------------
+     ADD PHOTOS PAGE
+  ------------------------------------------------------- */
+  
+  .add-photos-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 50px 20px;
+  }
+  
+  .add-photos-card {
+    /* reuse generic card */
+    composes: card-elegant;
+  }
+  
+  .add-title {
+    font-size: 2rem;
+    color: var(--rose);
+    margin-bottom: 5px;
+    font-weight: 700;
+  }
+  
+  .add-subtitle {
+    margin-top: 0;
+    font-size: 1.35rem;
+    color: var(--lavender);
+    font-weight: 600;
+  }
+  
+  .add-description {
+    color: var(--text-muted);
+    margin-bottom: 35px;
+    font-size: 1rem;
+  }
+  
+  /* Form */
+  .add-form label {
+    display: block;
+    margin-bottom: 6px;
+    margin-top: 15px;
+    font-weight: 500;
+    color: var(--text-main);
+  }
+  
+  .add-form input[type="text"],
+  .add-form textarea,
+  .add-form input[type="file"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e6c5e4;
+    border-radius: 8px;
+    background: #fdf7ff;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    transition: border 0.2s;
+  }
+  
+  .add-form input[type="text"]:focus,
+  .add-form textarea:focus {
+    border-color: var(--rose);
+    outline: none;
+  }
+  
+  .checkbox-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  
+  /* Upload button */
+  .btn-upload {
+    width: 100%;
+    margin-top: 25px;
+  }
+  
+  /* Status bubble */
+  .status-badge {
+    background: #fff0fa;
+    color: var(--rose);
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+  

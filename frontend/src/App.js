@@ -6,7 +6,7 @@ import {
   Navigate,
   useNavigate,
 } from "react-router-dom";
-
+import "./global.css"; 
 import "./App.css";
 import "./User/user-pages.css";
 import UserDashboard from "./User/UserDashboard";

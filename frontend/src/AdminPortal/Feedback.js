@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./admin.css";
+//import "./admin.css";
 
 export default function Feedback() {
   const [feedbackList, setFeedbackList] = useState([]);
