@@ -19,7 +19,7 @@ import Home from "./Guest/Home";
 import AddPhotos from "./Guest/AddPhotos";
 import ParkingCapacity from "./Guest/ParkingCapacity";
 
-// ⭐ NEW: auth API helpers
+// ⭐ auth API helpers
 import { loginAccount, registerAccount } from "./api/client";
 
 function App() {
@@ -47,14 +47,14 @@ function App() {
   );
 }
 
-// --------- Component wrappers ---------
-
+// ---------- Login wrapper ----------
 function LoginPage() {
   const navigate = useNavigate();
 
-  // 🔐 real login using backend
   async function handleLogin(form) {
     try {
+      console.log("Login form:", form);
+
       const { user, token } = await loginAccount({
         email: form.email,
         password: form.password,
@@ -64,7 +64,6 @@ function LoginPage() {
       localStorage.setItem("authToken", token);
       localStorage.setItem("currentUser", JSON.stringify(user));
 
-      // redirect based on role (single ADMIN, others = normal users)
       if (user.role === "ADMIN") {
         navigate("/admin");
       } else {
@@ -84,23 +83,23 @@ function LoginPage() {
   );
 }
 
+// ---------- SignUp wrapper ----------
 function SignUpPage() {
   const navigate = useNavigate();
 
-  // 🔐 real register using backend
   async function handleSignUp(form) {
     try {
+      console.log("SignUp form:", form);
+
       const { user, token } = await registerAccount({
-        full_name: form.fullName,      // map camelCase → snake_case
+        full_name: form.fullName,
         email: form.email,
         password: form.password,
-        // role is forced to USER in backend; no admin created here
       });
 
       localStorage.setItem("authToken", token);
       localStorage.setItem("currentUser", JSON.stringify(user));
 
-      // after signup you can go straight to /home or back to login
       navigate("/home");
     } catch (err) {
       console.error("Sign up failed:", err);
