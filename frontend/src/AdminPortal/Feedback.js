@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import "./admin.css";
+
+const API_BASE = "http://localhost:5000"; // adjust if your backend runs elsewhere
 
 export default function Feedback() {
   const [feedbackList, setFeedbackList] = useState([]);
@@ -8,36 +10,66 @@ export default function Feedback() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch feedback from backend (optional – will just fail silently if server not running)
+  // Fetch feedback from backend
   useEffect(() => {
+    let mounted = true;
+
     const fetchFeedback = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/feedback");
-        setFeedbackList(res.data);
+        setLoading(true);
+        const res = await axios.get(`${API_BASE}/api/feedback`);
+        const data = Array.isArray(res.data) ? res.data : [];
+        if (!mounted) return;
+        setFeedbackList(data);
+        setError("");
       } catch (err) {
-        console.warn("No backend data yet, showing empty layout.");
-        setFeedbackList([]); // keep layout even if empty
+        console.warn("No backend data yet, showing empty layout.", err);
+        if (mounted) {
+          setFeedbackList([]);
+          setError("Failed to load feedback from server.");
+        }
       } finally {
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     };
+
     fetchFeedback();
+    return () => {
+      mounted = false;
+    };
   }, []);
 
-  // Filter feedback by search text
-  const filteredFeedback = feedbackList.filter(
-    (fb) =>
-      fb.name?.toLowerCase().includes(search.toLowerCase()) ||
-      fb.email?.toLowerCase().includes(search.toLowerCase()) ||
-      fb.service?.toLowerCase().includes(search.toLowerCase())
-  );
+  // Filter feedback by search text (name, email, comment)
+  const filteredFeedback = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    if (!term) return feedbackList;
 
-  // Delete feedback (works locally if backend not connected yet)
-  const handleDelete = (id) => {
-    if (window.confirm("Delete this feedback?")) {
-      setFeedbackList((prev) => prev.filter((fb) => fb.id !== id));
+    return feedbackList.filter((fb) => {
+      return (
+        fb.full_name?.toLowerCase().includes(term) ||
+        fb.email?.toLowerCase().includes(term) ||
+        fb.comment?.toLowerCase().includes(term)
+      );
+    });
+  }, [feedbackList, search]);
+
+  // Delete feedback
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this feedback?")) return;
+
+    const prev = [...feedbackList];
+    setFeedbackList((list) => list.filter((fb) => fb.id !== id));
+
+    try {
+      await axios.delete(`${API_BASE}/api/feedback/${id}`);
+    } catch (err) {
+      alert("Failed to delete feedback, reverting.");
+      setFeedbackList(prev);
     }
   };
+
+  const formatDate = (iso) =>
+    iso ? new Date(iso).toLocaleString() : "—";
 
   return (
     <div className="panel">
@@ -47,50 +79,59 @@ export default function Feedback() {
       <div style={{ marginBottom: "1rem", display: "flex", gap: "8px" }}>
         <input
           type="text"
-          placeholder="Search by name, email, or service..."
+          placeholder="Search by name, email, or comment..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          style={{ maxWidth: 320 }}
         />
       </div>
+
+      {error && (
+        <div
+          style={{
+            color: "#b42318",
+            marginBottom: 10,
+            fontSize: 14,
+          }}
+        >
+          {error}
+        </div>
+      )}
 
       {/* Feedback Table */}
       <table>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Service</th>
-            <th>Rating</th>
-            <th>Comment</th>
-            <th>Date</th>
-            <th>Actions</th>
+            <th style={{ width: "20%" }}>Name</th>
+            <th style={{ width: "25%" }}>Email</th>
+            <th style={{ width: "35%" }}>Comment</th>
+            <th style={{ width: "12%" }}>Date</th>
+            <th style={{ width: "8%" }}>Actions</th>
           </tr>
         </thead>
 
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan="7" style={{ textAlign: "center", padding: "20px" }}>
+              <td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>
                 Loading feedback...
               </td>
             </tr>
           ) : filteredFeedback.length > 0 ? (
             filteredFeedback.map((fb) => (
               <tr key={fb.id}>
-                <td>{fb.name}</td>
-                <td>{fb.email}</td>
-                <td>{fb.service}</td>
-                <td>{"⭐".repeat(fb.rating || 0)}</td>
-                <td>{fb.comment}</td>
-                <td>
-                  {fb.created_at
-                    ? new Date(fb.created_at).toLocaleDateString()
-                    : "—"}
-                </td>
+                <td>{fb.full_name || "—"}</td>
+                <td>{fb.email || "—"}</td>
+                <td>{fb.comment || "—"}</td>
+                <td>{formatDate(fb.created_at)}</td>
                 <td>
                   <button
                     className="btn"
-                    onClick={() => alert(`Viewing feedback from ${fb.name}`)}
+                    onClick={() =>
+                      alert(
+                        `From: ${fb.full_name || fb.email}\n\n${fb.comment || ""}`
+                      )
+                    }
                   >
                     View
                   </button>{" "}
@@ -106,7 +147,7 @@ export default function Feedback() {
           ) : (
             <tr>
               <td
-                colSpan="7"
+                colSpan="5"
                 style={{
                   textAlign: "center",
                   color: "#777",
@@ -114,7 +155,8 @@ export default function Feedback() {
                   padding: "20px",
                 }}
               >
-                No feedback yet — your users’ feedback will appear here once added.
+                No feedback yet — your users’ feedback will appear here once
+                added.
               </td>
             </tr>
           )}

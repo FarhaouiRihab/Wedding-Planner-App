@@ -13,13 +13,13 @@ const authRoutes = require("./routes/auth");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const serviceRoutes = require("./routes/services");
-
+const feedbackRoutes = require("./routes/feedback");
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/services", serviceRoutes);
-
+app.use("/api/feedback", feedbackRoutes);
 app.get("/", (req, res) => {
   res.send("Wedding Guest API is running 🌸");
 });
