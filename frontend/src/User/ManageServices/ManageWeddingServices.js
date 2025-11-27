@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
-//import "../user-pages.css";
+import "../user-pages.css";
 import Categories from "./Categories";
 import ServicesByCategory from "./ServicesByCategory";
 import ServiceDetail from "./ServiceDetail";

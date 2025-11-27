@@ -1,7 +1,7 @@
 // src/User/UserDashboard.js
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-//import "./user-pages.css";
+import "./user-pages.css";
 import BookAppointment from "./BookAppointment/BookAppointment";
 import ManageServices from "./ManageServices/ManageWeddingServices";
 import SendInvitations from "./SendInvitations/SendInvitations";
@@ -32,12 +32,23 @@ export default function UserDashboard() {
     <div className="user-root">
       {/* Topbar */}
       <div className="user-topbar">
-        <div className="user-brand">Wedding Planner — User #{id}</div>
-        <button className="user-logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
+        <div className="user-topbar-left">
+          <div className="user-logo-circle">WP</div>
+          <div className="user-topbar-text">
+            <div className="user-app-name">Wedding Planner</div>
+            <div className="user-app-subtitle">User #{id}</div>
+          </div>
+        </div>
+
+        <div className="user-topbar-right">
+          <span className="user-topbar-caption">User Panel</span>
+          <button className="user-logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </div>
 
+      {/* Main layout: vertical sidebar + content */}
       <div className="user-layout">
         {/* Sidebar */}
         <aside className="user-sidebar">

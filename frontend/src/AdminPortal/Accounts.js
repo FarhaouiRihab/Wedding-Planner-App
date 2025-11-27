@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-//import "./admin.css";
+import "./admin.css";
 
 const API_BASE = "http://localhost:5000"; // ⬅️ change if your backend uses a different origin
 

@@ -38,6 +38,7 @@ function App() {
         {/* /user/:id -> normal user home (for now using Guest Home) */}
         <Route path="/user/:id" element={<UserDashboard />} />
         {/* if you ever add guests: <Route path="/guest/:id" ... /> */}
+        <Route path="/home" element={<Home />} />
 
         {/* invitation routes keep working */}
         <Route path="/invite/:invitationId/photos" element={<AddPhotos />} />

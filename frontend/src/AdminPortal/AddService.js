@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-//import "./admin.css";
+import "./admin.css";
 
 const SERVICE_TYPES = ["DJ", "Chef", "Cake Baker", "Florist", "Waiter", "Venue"];
 

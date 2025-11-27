@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-//import "../user-pages.css";
+import "../user-pages.css";
 
 const STORAGE_KEY_PLAN = "weddingPlanServices";
 const STORAGE_KEY_INVITATIONS = "weddingInvitations";

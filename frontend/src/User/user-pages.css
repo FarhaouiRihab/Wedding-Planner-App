@@ -1,16 +1,17 @@
-/* ===================== User Pages Layout ===================== */
+/* ===================== User Pages Layout (wedding theme) ===================== */
 .user-page {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
-  font-family: 'Inter', sans-serif;
+  min-height: 100%;
   padding: 2rem 1rem;
+  box-sizing: border-box;
+  /* no custom background or font here – use global body styles */
 }
 
 .user-container {
-  background-color: #ffffff;
+  background: #ffffffdd;
+  backdrop-filter: blur(8px);
   width: 100%;
   max-width: 1200px;
   border-radius: 24px;
@@ -27,7 +28,7 @@
 .user-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #111;
+  color: #3a3a3a;
   margin-bottom: 0.25rem;
 }
 
@@ -43,12 +44,12 @@
   align-items: center;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #f0d9e9;
 }
 
-/* ===================== Buttons ===================== */
+/* ===================== Buttons (wedding colors) ===================== */
 .user-btn {
-  background-color: #111;
+  background: linear-gradient(135deg, #b33c86, #6a4bac); /* rose + lavender */
   color: white;
   border: none;
   border-radius: 12px;
@@ -57,16 +58,18 @@
   font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(179, 60, 134, 0.25);
 }
 
 .user-btn:hover {
-  background-color: #e60023;
+  background: linear-gradient(135deg, #d94fa6, #8562d1);
+  transform: translateY(-1px);
 }
 
 .user-btn-secondary {
-  background-color: transparent;
-  color: #666;
-  border: 1px solid #ccc;
+  background-color: #fff7fb;
+  color: #555;
+  border: 1px solid #f0d9e9;
   border-radius: 12px;
   padding: 0.85rem 1.5rem;
   font-weight: 500;
@@ -76,8 +79,8 @@
 }
 
 .user-btn-secondary:hover {
-  background-color: #f5f5f5;
-  border-color: #999;
+  background-color: #ffe9f5;
+  border-color: #e4c4dd;
 }
 
 .user-btn-small {
@@ -88,7 +91,7 @@
 .user-btn-link {
   background: none;
   border: none;
-  color: #e60023;
+  color: #b33c86;
   font-weight: 600;
   cursor: pointer;
   padding: 0.5rem;
@@ -98,6 +101,7 @@
 
 .user-btn-link:hover {
   text-decoration: underline;
+  color: #d94fa6;
 }
 
 .user-btn-danger {
@@ -130,51 +134,39 @@
 .user-input {
   width: 100%;
   padding: 0.85rem 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid #e5c5e4;
   border-radius: 12px;
   font-size: 0.95rem;
   transition: all 0.2s ease;
   font-family: inherit;
+  background-color: #fdf7ff;
 }
 
 .user-input:focus {
   outline: none;
-  border-color: #e60023;
-  box-shadow: 0 0 0 2px rgba(230, 0, 35, 0.12);
+  border-color: #b33c86;
+  box-shadow: 0 0 0 2px rgba(179, 60, 134, 0.16);
 }
 
 .user-select {
   width: 100%;
   padding: 0.85rem 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid #e5c5e4;
   border-radius: 12px;
   font-size: 0.95rem;
   transition: all 0.2s ease;
   font-family: inherit;
-  background-color: white;
+  background-color: #fff;
   cursor: pointer;
 }
 
 .user-select:focus {
   outline: none;
-  border-color: #e60023;
-  box-shadow: 0 0 0 2px rgba(230, 0, 35, 0.12);
+  border-color: #b33c86;
+  box-shadow: 0 0 0 2px rgba(179, 60, 134, 0.16);
 }
 
-.user-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: #444;
-  cursor: pointer;
-}
-
-.user-checkbox input {
-  accent-color: #e60023;
-  cursor: pointer;
-}
-
+.user-checkbox,
 .user-radio {
   display: flex;
   align-items: center;
@@ -184,15 +176,16 @@
   cursor: pointer;
 }
 
+.user-checkbox input,
 .user-radio input {
-  accent-color: #e60023;
+  accent-color: #b33c86;
   cursor: pointer;
 }
 
 /* ===================== Cards ===================== */
 .user-card {
   background-color: #ffffff;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #f0d9e9;
   border-radius: 16px;
   padding: 1.5rem;
   transition: all 0.2s ease;
@@ -200,8 +193,8 @@
 }
 
 .user-card:hover {
-  border-color: #e60023;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #b33c86;
+  box-shadow: 0 4px 12px rgba(179, 60, 134, 0.18);
   transform: translateY(-2px);
 }
 
@@ -246,7 +239,7 @@
 /* ===================== Sidebar ===================== */
 .user-sidebar {
   background-color: #ffffff;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #f0d9e9;
   border-radius: 16px;
   padding: 1.5rem;
   height: fit-content;
@@ -258,15 +251,15 @@
   color: #111;
   margin-bottom: 1rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #f0d9e9;
 }
 
 .user-sidebar-item {
   padding: 1rem;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #f0d9e9;
   border-radius: 12px;
   margin-bottom: 0.75rem;
-  background-color: #fafafa;
+  background-color: #faf5ff;
 }
 
 .user-sidebar-item-title {
@@ -336,7 +329,7 @@
   color: #1e40af;
 }
 
-/* ===================== Navigation ===================== */
+/* ===================== Navigation Tabs ===================== */
 .user-nav {
   display: flex;
   gap: 0.5rem;
@@ -347,7 +340,7 @@
 .user-nav-item {
   padding: 0.6rem 1.2rem;
   border-radius: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #f0d9e9;
   background-color: #fff;
   color: #666;
   font-weight: 500;
@@ -357,19 +350,14 @@
 }
 
 .user-nav-item:hover {
-  background-color: #f5f5f5;
-  border-color: #999;
+  background-color: #fff7fb;
+  border-color: #e4c4dd;
 }
 
 .user-nav-item.active {
-  background-color: #111;
+  background: linear-gradient(135deg, #b33c86, #6a4bac);
   color: white;
-  border-color: #111;
-}
-
-.user-nav-item.active:hover {
-  background-color: #e60023;
-  border-color: #e60023;
+  border-color: transparent;
 }
 
 /* ===================== Back Button ===================== */
@@ -388,7 +376,7 @@
 }
 
 .user-back:hover {
-  color: #e60023;
+  color: #b33c86;
 }
 
 /* ===================== Responsive ===================== */
@@ -456,4 +444,99 @@
   font-size: 1rem;
   color: #666;
 }
+/* ===================== User Topbar ===================== */
+.user-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 12px 32px;
+  background: #ffffffcc;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #f0d9e9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* Left side: logo + text */
+.user-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-logo-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #b33c86, #6a4bac);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.user-topbar-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-app-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #3a3a3a;
+}
+
+.user-app-subtitle {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+/* Right side: caption + logout */
+.user-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-topbar-caption {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* Logout button */
+.user-logout-btn {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #e4c4dd;
+  background: #fff7fb;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #b33c86;
+  transition: all 0.2s ease;
+}
+
+.user-logout-btn:hover {
+  background: #ffe9f5;
+  border-color: #d59cc8;
+  transform: translateY(-1px);
+}
+@media (max-width: 900px) {
+  .user-layout {
+    grid-template-columns: 1fr;
+  }
+  .user-sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .user-nav-item {
+    width: auto;
+  }
+}

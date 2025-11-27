@@ -1,5 +1,5 @@
 import React from "react";
-//import "../user-pages.css";
+import "../user-pages.css";
 
 export default function ServiceDetail({ service, onBack, onAddToPlan }) {
   if (!service) return null;

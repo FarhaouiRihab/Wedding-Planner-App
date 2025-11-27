@@ -1,5 +1,5 @@
 import React from "react";
-//import "../user-pages.css";
+import "../user-pages.css";
 
 export default function Categories({ categories, onSelectCategory }) {
   return (
