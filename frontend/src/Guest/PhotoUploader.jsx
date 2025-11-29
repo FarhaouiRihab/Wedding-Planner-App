@@ -1,95 +1,90 @@
-// PhotoUploader.jsx
+// frontend/src/Guest/PhotoUploader.jsx
 import React, { useState } from "react";
 import axios from "axios";
 
-const PhotoUploader = ({ invitationId }) => {
-  const [photo, setPhoto] = useState(null);
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+export default function PhotoUploader() {
+  const [coupleName, setCoupleName] = useState("");
+  const [guestName, setGuestName] = useState("");
+  const [file, setFile] = useState(null);
+  const [busy, setBusy] = useState(false);
 
-  const handleFileChange = (e) => {
-    setPhoto(e.target.files[0]);
-    setMessage("");
-  };
-
-  const handleUpload = async () => {
-    if (!photo) {
-      setMessage("Please select a photo to upload.");
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!file) {
+      alert("Please choose a photo first.");
+      return;
+    }
+    if (!coupleName.trim()) {
+      alert("Please enter the couple's name.");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("photo", photo);
-    formData.append("invitationId", invitationId);
-
     try {
-      setLoading(true);
+      setBusy(true);
+
+      const formData = new FormData();
+      formData.append("coupleName", coupleName.trim());
+      formData.append("guestName", guestName.trim());
+      // field name MUST be "photos" because of upload.array("photos", ...)
+      formData.append("photos", file);
+
       await axios.post(
-        "http://localhost:5000/api/guests/upload",
+        "http://localhost:5000/api/guests/events/photos",
         formData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      setMessage("Upload successful! ✨");
-      setPhoto(null);
-    } catch (err) {
-      setMessage("Upload failed: " + err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  const isError =
-    message.toLowerCase().includes("fail") ||
-    message.toLowerCase().includes("please");
+      alert("Upload success!");
+      setFile(null);
+      setCoupleName("");
+      setGuestName("");
+    } catch (err) {
+      console.error(err);
+      alert("Upload failed.");
+    } finally {
+      setBusy(false);
+    }
+  }
 
   return (
-    <div className="add-form-inner">
-      {message && (
-        <div
-          className="status-badge"
-          style={isError ? { background: "#ffe6e6", color: "#c0392b" } : {}}
-        >
-          {message}
-        </div>
-      )}
-
-      <label className="upload-label" htmlFor="photo-input">
-        Photo file
-      </label>
-
-      <div className="upload-dropzone">
-        <div className="upload-icon">📷</div>
-        <div className="upload-copy">
-          <span className="upload-title">
-            {photo ? photo.name : "Click to choose a photo"}
-          </span>
-          <span className="upload-subtitle">
-            JPG / PNG – max ~10 MB
-          </span>
-        </div>
-        {/* real input is invisible but clickable */}
+    <form className="add-form-inner" onSubmit={handleSubmit}>
+      {/* Couple name input */}
+      <div className="field">
+        <label>Couple's Name</label>
         <input
-          id="photo-input"
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
+          type="text"
+          placeholder="e.g., Emma & David"
+          value={coupleName}
+          onChange={(e) => setCoupleName(e.target.value)}
         />
       </div>
 
-      <button
-        type="button"
-        className="btn-upload"
-        onClick={handleUpload}
-        disabled={loading}
-      >
-        {loading ? "Uploading…" : "Upload Photo"}
-      </button>
-    </div>
-  );
-};
+      {/* Guest name input */}
+      <div className="field">
+        <label>Your Name (optional)</label>
+        <input
+          type="text"
+          placeholder="e.g., Yosr"
+          value={guestName}
+          onChange={(e) => setGuestName(e.target.value)}
+        />
+      </div>
 
-export default PhotoUploader;
+      {/* File input */}
+      <div className="field">
+        <label>Photo file</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setFile(e.target.files[0] || null)}
+        />
+      </div>
+
+      <button type="submit" disabled={busy}>
+        {busy ? "Uploading…" : "Upload Photo"}
+      </button>
+    </form>
+  );
+}

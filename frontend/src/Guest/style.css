@@ -164,7 +164,8 @@
 
 /* Nice inner layout */
 .add-form-inner {
-  max-width: 520px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 /* Label above dropzone */
@@ -175,29 +176,31 @@
   color: #5a4c73;
 }
 
-/* Pretty dropzone for file input */
+/* Clean, simple file selector (no dashed purple shapes) */
 .upload-dropzone {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 6px;
   padding: 16px 18px;
   border-radius: 12px;
-  border: 1px dashed #e6c5e4;
-  background: #fff7ff;
+  border: 1px solid #e2d4fb;      /* solid, soft border */
+  background: #fdfbff;            /* almost white */
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
   transition: box-shadow 0.2s ease, transform 0.2s ease,
     border-color 0.2s ease, background 0.2s ease;
 }
 
 .upload-dropzone:hover {
-  border-color: #d59ed2;
-  background: #fff0fb;
-  box-shadow: 0 8px 18px rgba(179, 60, 134, 0.15);
+  border-color: #c8b6f2;
+  background: #f7f2ff;
+  box-shadow: 0 8px 18px rgba(106, 75, 172, 0.12);
   transform: translateY(-1px);
 }
 
-/* Hide the ugly native input but keep it clickable */
+/* Hide the native input but keep the whole box clickable */
 .upload-dropzone input[type="file"] {
   position: absolute;
   inset: 0;
@@ -207,12 +210,15 @@
 
 /* Icon + text */
 .upload-icon {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
+  color: #8a479b;
 }
 
 .upload-copy {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .upload-title {
@@ -223,4 +229,57 @@
 .upload-subtitle {
   font-size: 0.9rem;
   color: #777;
+}
+.upload-card {
+  background: white;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  width: 100%;
+  max-width: 650px;
+  margin: auto;
+}
+
+.upload-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #b33c86, #6a4bac);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.label {
+  display: block;
+  text-align: left;
+  margin-top: 15px;
+  font-weight: 500;
+}
+
+.input,
+.upload-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #dcd0f0;
+  background: #faf6ff;
+  outline: none;
+}
+
+.btn-upload {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 1.2rem;
+  color: white;
+  background: linear-gradient(135deg, #b56ce3, #a15acb);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-upload:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(163, 74, 214, 0.25);
 }
