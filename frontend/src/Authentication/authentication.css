@@ -65,11 +65,13 @@
 }
 
 /* ===================== Form ===================== */
+/* === FINAL AUTH FORM LAYOUT === */
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.4rem; /* same vertical spacing between all fields */
+  row-gap: 0.5rem;    /* 🔥 small space between label & input */
 }
+
 
 .auth-label {
   font-size: 0.95rem;
@@ -288,10 +290,11 @@
 /* ===== FINAL AUTH SPACING + COLOR OVERRIDES ===== */
 
 /* same vertical spacing between every field group */
+/* === FINAL AUTH FORM LAYOUT === */
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.4rem;            /* distance between groups (label+input) */
+  row-gap: 0.5rem;    /* 🔥 small space between label & input */
 }
 
 /* same spacing under every label + pink color */
@@ -313,4 +316,72 @@
 /* ensure password field doesn’t mess spacing */
 .auth-password-toggle {
   margin: 0;              /* no extra space added */
+}
+/* Compact spacing for form fields */
+.auth-form .field {
+  margin-bottom: 8px;  /* reduce gap between fields */
+}
+
+.auth-form .label {
+  margin-bottom: 2px;  /* smaller gap between label + input */
+  font-weight: 600;
+  color: #b33c86; /* theme pink */
+}
+
+.auth-form input {
+  margin: 0; /* ensure no extra browser default margin */
+  padding: 12px 14px; /* keep comfy height */
+}
+
+/* Reduce space above the button */
+.auth-form .submit-btn {
+  margin-top: 6px;
+}
+
+/* Reduce space under headings */
+.auth-form h2 {
+  margin-bottom: 4px;
+}
+
+.auth-form .subtitle {
+  margin-bottom: 16px; /* tighter subtitle spacing */
+}
+/* Reduce vertical gaps anywhere inside auth page */
+.auth-page .field,
+.auth-page label,
+.auth-page input,
+.auth-page h2,
+.auth-page p {
+  margin-bottom: 6px !important;
+}
+/* === FIXED AUTH FORM SPACING === */
+
+/* Reduce spacing between label and input */
+.auth-label {
+  margin-bottom: 4px !important; 
+}
+
+/* Reduce spacing between input groups */
+.auth-input {
+  margin-bottom: 10px !important;
+}
+
+/* Reduce gap between title and subtitle */
+.auth-title {
+  margin-bottom: 8px !important;
+}
+
+/* Reduce gap under subtitle */
+.auth-subtitle {
+  margin-bottom: 14px !important;
+}
+
+/* Reduce spacing before submit button */
+.auth-btn {
+  margin-top: 6px !important;
+}
+
+/* Reduce bottom margin for last input (Confirm) */
+.password-section {
+  gap: 1rem !important;
 }

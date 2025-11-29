@@ -128,7 +128,7 @@
 
 .admin .content {
   padding: 20px 18px 24px;
-  max-width: 1600px;   /* wider canvas for panels */
+  max-width: 1900px;     /* or just remove this line entirely */
   margin: 0 auto;
 }
 
@@ -137,11 +137,13 @@
   background: var(--bg-elev);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 18px 18px 20px;
+  padding: 24px 28px 28px;  /* a bit more inner padding */
   box-shadow: var(--shadow-md);
-  max-width: 1100px;   /* ⬅️ make card wider */
-  margin: 0 auto;      /* center it */
+  max-width: 1300px;        /* ⬅️ wider card */
+  width: 100%;              /* take all available width up to 1300 */
+  margin: 0 auto;
 }
+
 
 .admin .panel form {
   max-width: 100%;     /* ⬅️ form now uses full card width */
@@ -630,4 +632,32 @@
 .logout-btn:focus {
   outline: 2px solid #fecaca;
   outline-offset: 2px;
+}
+/* === FINAL LAYOUT OVERRIDES FOR ADD SERVICE === */
+
+/* Content area: full width of the right column, no centering */
+.admin .content {
+  padding: 24px 32px 32px;
+  max-width: none;   /* remove width limit */
+  margin: 0;         /* remove auto-centering */
+}
+
+/* Panel (white card): stretch fully inside .content */
+.admin .panel {
+  max-width: none;   /* no cap */
+  width: 100%;       /* take full width */
+  margin: 0;         /* align with .content padding */
+}
+
+/* Form: also full width of the panel */
+.admin .panel form {
+  max-width: none;
+  width: 100%;
+}
+
+/* Keep the 2-column layout but let it use full width */
+.admin .form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
