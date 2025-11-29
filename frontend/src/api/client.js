@@ -92,19 +92,23 @@ export const createService = async (serviceData) => {
 };
 
 /* -----------------------------
-   ADMIN: LIST SERVICES
+   LIST SERVICES (admin + user)
 ------------------------------ */
 export const listServices = async (options = {}) => {
   const params = {};
 
+  // options.service_type should be exactly one of:
+  // "DJ", "Chef", "Cake Baker", "Florist", "Waiter", "Venue"
   if (options.service_type && options.service_type !== "All") {
     params.service_type = options.service_type;
   }
 
   const { data } = await api.get("/services", { params });
-  // Backend returns { ok: true, services: [...] }
   return Array.isArray(data.services) ? data.services : [];
 };
+
+// If you want a “user-named” alias:
+export const listServicesForUser = listServices;
 
 
 
